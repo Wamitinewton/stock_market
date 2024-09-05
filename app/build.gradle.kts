@@ -1,9 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.devtools.ksp") version "1.9.0-1.0.11"
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("androidx.room")
 }
 
 android {
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
     namespace = "com.example.stock_market"
     compileSdk = 34
 
@@ -66,4 +73,36 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // OpenCSV
+    implementation("com.opencsv:opencsv:5.5.2")
+//
+//    // Compose Nav Destinations
+    implementation("io.github.raamcosta.compose-destinations:core:1.1.2-beta")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.1.2-beta")
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:1.4.0")
+
+    // Dagger  -Hilt
+    implementation ("com.google.dagger:hilt-android:2.51")
+    kapt ("com.google.dagger:hilt-compiler:2.51")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
+
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.3.0")
 }
