@@ -1,4 +1,3 @@
-@file:Suppress("UNREACHABLE_CODE")
 
 package com.example.stock_market.data.mapper
 
@@ -11,12 +10,11 @@ fun CompanyListingEntity.toCompanyListing(): CompanyListing {
         symbol = symbol,
         exchange = exchange
     )
-
-    fun CompanyListing.toCompanyListingEntity(): CompanyListingEntity{
-        return CompanyListingEntity(
-            name = name,
-            symbol = symbol,
-            exchange = exchange
-        )
-    }
+}
+fun CompanyListing.toCompanyListingEntity(): CompanyListingEntity{
+    return CompanyListingEntity(
+        name = name,
+        symbol = symbol,
+        exchange = exchange
+    )
 }
