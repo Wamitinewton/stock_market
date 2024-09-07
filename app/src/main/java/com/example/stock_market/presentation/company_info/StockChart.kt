@@ -17,7 +17,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.stock_market.domain.model.IntradayInfo
+import kotlin.math.round
 import kotlin.math.roundToInt
+
 
 @Composable
 fun StockChart(
@@ -43,7 +45,6 @@ fun StockChart(
             textSize = density.run { 12.sp.toPx() }
         }
     }
-
     Canvas(modifier = modifier) {
         val spacePerHour = (size.width - spacing) / infos.size
         (0 until infos.size - 1 step 2).forEach { i ->
@@ -58,17 +59,28 @@ fun StockChart(
                 )
             }
         }
+        val priceStep = (upperValue - lowerValue) / 5f
+        (0..5).forEach { i ->
+            drawContext.canvas.nativeCanvas.apply {
+                drawText(
+                    round(lowerValue + priceStep * i).toString(),
+                    30f,
+                    size.height - spacing - i * size.height / 5f,
+                    textPaint
+                )
+            }
+        }
         var lastX = 0f
         val strokePath = Path().apply {
             val height = size.height
             for (i in infos.indices) {
                 val info = infos[i]
                 val nextInfo = infos.getOrNull(i + 1) ?: infos.last()
-                val leftRatios = (info.close - lowerValue) / (upperValue - lowerValue)
+                val leftRatio = (info.close - lowerValue) / (upperValue - lowerValue)
                 val rightRatio = (nextInfo.close - lowerValue) / (upperValue - lowerValue)
 
                 val x1 = spacing + i * spacePerHour
-                val y1 = height - spacing - (leftRatios * height).toFloat()
+                val y1 = height - spacing - (leftRatio * height).toFloat()
                 val x2 = spacing + (i + 1) * spacePerHour
                 val y2 = height - spacing - (rightRatio * height).toFloat()
                 if (i == 0) {
